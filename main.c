@@ -1,12 +1,16 @@
 #include "src/lox.h"
 
-void	run(char *src)
+int	run(char *src)
 {
-	printf("%s", src);
-	free(src);
+	t_token	*tokens;
+
+	tokens = tokens_scan(src);
+	if (tokens == NULL)
+		return (free(src), EX_DATAERR);
+	return (free(src), token_free(tokens), EXIT_SUCCESS);
 }
 
-void	runPrompt(void)
+void	run_prompt(void)
 {
 	char	*line;
 
@@ -19,7 +23,7 @@ void	runPrompt(void)
 	}
 }
 
-void	runFile(char *file)
+void	run_file(char *file)
 {
 	char	*bytes;
 
@@ -29,7 +33,7 @@ void	runFile(char *file)
 		perror(file);
 		exit(EX_DATAERR);
 	}
-	run(bytes);
+	exit(run(bytes));
 }
 
 int	main(int argc, char *argv[])
@@ -40,8 +44,8 @@ int	main(int argc, char *argv[])
 		exit(EX_USAGE);
 	}
 	else if (argc == 2)
-		runFile(argv[1]);
+		run_file(argv[1]);
 	else
-		runPrompt();
+		run_prompt();
 	return (EXIT_SUCCESS);
 }

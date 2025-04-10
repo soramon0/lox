@@ -23,8 +23,6 @@ char	*read_entire_file(char *file)
 		bytes = read(fd, buf + total_bytes, stats.st_size - total_bytes);
 		if (bytes == -1)
 			return (close(fd), free(buf), NULL);
-		if (bytes == 0)
-			break ;
 		total_bytes += bytes;
 	}
 	buf[total_bytes] = '\0';
