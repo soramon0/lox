@@ -58,7 +58,8 @@ typedef enum e_token_type
 	T_VAR,
 	T_WHILE,
 
-	T_EOF
+	T_EOF,
+	T_UNKNOWN
 }					t_token_type;
 
 typedef struct s_token

@@ -99,5 +99,7 @@ const char	*token_type_str4(t_token_type type)
 		return ("T_COMMA");
 	if (type == T_DOT)
 		return ("T_DOT");
+	if (type == T_UNKNOWN)
+		return ("T_UNKOWN");
 	return (NULL);
 }
