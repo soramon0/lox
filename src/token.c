@@ -20,7 +20,7 @@ char	*token_str_create(t_token *t)
 	return (free(str), str_full);
 }
 
-t_token	*token_new(t_token_type type, char *lexeme, void *literal, int line)
+t_token	*token_new(t_token_type type, char *lexeme, void *literal, size_t line)
 {
 	t_token	*token;
 
@@ -32,14 +32,31 @@ t_token	*token_new(t_token_type type, char *lexeme, void *literal, int line)
 	token->literal = literal;
 	token->line = line;
 	token->str = token_str_create(token);
+	token->next = NULL;
 	return (token);
 }
 
 void	token_free(t_token *token)
 {
+	if (token == NULL)
+		return ;
 	if (token->lexeme || token->literal)
 		free(token->str);
 	free(token);
+}
+
+void	tokens_free(t_token *token)
+{
+	t_token	*tmp;
+
+	if (token == NULL)
+		return ;
+	while (token)
+	{
+		tmp = token->next;
+		token_free(token);
+		token = tmp;
+	}
 }
 
 void	token_str(t_token *t, bool nl)

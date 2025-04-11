@@ -64,10 +64,11 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	t_token_type	type;
-	int				line;
+	size_t			line;
 	char			*lexeme;
 	void			*literal;
 	char			*str;
+	struct s_token	*next;
 }					t_token;
 
 void				exit_msg(int status, char *fmt, ...);
@@ -77,9 +78,10 @@ void				error(int line, char *msg);
 
 char				*read_entire_file(char *file);
 t_token				*token_new(t_token_type type, char *lexeme, void *literal,
-						int line);
-void				token_free(t_token *token);
+						size_t line);
 t_token				*tokens_scan(char *src);
+void				tokens_free(t_token *token);
+void				token_free(t_token *token);
 void				token_str(t_token *t, bool nl);
 const char			*token_type_str(t_token_type type);
 

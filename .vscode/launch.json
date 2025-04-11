@@ -9,7 +9,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/shell",
-      "args": ["main.c"],
+      "args": ["input.lox"],
       "stopAtEntry": false,
       "cwd": "${fileDirname}",
       "environment": [],

@@ -3,11 +3,18 @@
 int	run(char *src)
 {
 	t_token	*tokens;
+	t_token	*tmp;
 
 	tokens = tokens_scan(src);
 	if (tokens == NULL)
 		return (free(src), EX_DATAERR);
-	return (free(src), token_free(tokens), EXIT_SUCCESS);
+	tmp = tokens;
+	while (tmp)
+	{
+		token_str(tmp, true);
+		tmp = tmp->next;
+	}
+	return (free(src), tokens_free(tokens), EXIT_SUCCESS);
 }
 
 void	run_prompt(void)
