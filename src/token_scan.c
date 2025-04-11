@@ -1,3 +1,4 @@
+#include "libft/libft.h"
 #include "lox.h"
 
 bool	match(char *src, size_t *current, char expected)
@@ -36,6 +37,26 @@ t_token	*extract_str(char *src, size_t *current, size_t *line)
 		return (NULL);
 	*current += 1;
 	return (token_new(T_STRING, substr, NULL, *line));
+}
+
+t_token	*extract_nbr(char *src, size_t *current, size_t *line)
+{
+	size_t	start;
+	char	*substr;
+
+	start = *current - 1;
+	while (ft_isdigit(src[*current]))
+		*current += 1;
+	if (src[*current] == '.' && ft_isdigit(src[*current + 1]))
+	{
+		*current += 1;
+		while (ft_isdigit(src[*current]))
+			*current += 1;
+	}
+	substr = ft_substr(src, start, *current - start);
+	if (substr == NULL)
+		return (NULL);
+	return (token_new(T_NUMBER, substr, NULL, *line));
 }
 
 void	consume_comment(char *src, size_t *current, size_t *line)
@@ -107,6 +128,8 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 	{
 		return (extract_str(src, current, line));
 	}
+	if (ft_isdigit(c))
+		return (extract_nbr(src, current, line));
 	if (c == '/')
 	{
 		if (match(src, current, '/'))

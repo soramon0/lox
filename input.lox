@@ -1,4 +1,6 @@
+123.45
 // this is a comment
 (( )){} // grouping stuff
 !*+-/=<> <= == // operators
-"lox is here"
+"lox is here
+with multiline strings"
