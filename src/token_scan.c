@@ -12,10 +12,49 @@ bool	match(char *src, size_t *current, char expected)
 	return (false);
 }
 
+t_token	*extract_str(char *src, size_t *current, size_t *line)
+{
+	size_t	start;
+	size_t	len;
+	char	*substr;
+
+	start = *current;
+	len = ft_strlen(src);
+	while (src[*current] && src[*current] != '"')
+	{
+		if (src[*current] == '\n' || *current >= len)
+			*line += 1;
+		*current += 1;
+	}
+	if (!src[*current] || *current >= len)
+	{
+		error(*line, "Unterminated string.");
+		return (NULL);
+	}
+	substr = ft_substr(src, start, *current - start);
+	if (substr == NULL)
+		return (NULL);
+	*current += 1;
+	return (token_new(T_STRING, substr, NULL, *line));
+}
+
+void	consume_comment(char *src, size_t *current, size_t *line)
+{
+	size_t	len;
+
+	len = ft_strlen(src);
+	while (src[*current] && *current <= len && src[*current] != '\n')
+		*current += 1;
+	if (src[*current] == '\n')
+	{
+		*line += 1;
+		*current += 1;
+	}
+}
+
 t_token	*scan_token(char *src, size_t *current, size_t *line)
 {
 	char	c;
-	size_t	len;
 
 	c = src[(*current)++];
 	if (c == '(')
@@ -64,22 +103,18 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 	}
 	if (c == ' ' || c == '\r' || c == '\t')
 		return (NULL);
+	if (c == '"')
+	{
+		return (extract_str(src, current, line));
+	}
 	if (c == '/')
 	{
 		if (match(src, current, '/'))
-		{
-			len = ft_strlen(src);
-			while (src[*current] && *current <= len && src[*current] != '\n')
-				*current += 1;
-			c = src[*current];
-			if (!c)
-				return (NULL);
-		}
-		else
-			return (token_new(T_SLASH, NULL, NULL, *line));
+			return (consume_comment(src, current, line), NULL);
+		return (token_new(T_SLASH, NULL, NULL, *line));
 	}
 	if (c == '\n')
-		return (((*line)++), NULL);
+		return (*line += 1, NULL);
 	error(*line, "Unexpected character.");
 	return (token_new(T_UNKNOWN, NULL, NULL, *line));
 }
