@@ -36,15 +36,15 @@ t_token	*token_new(t_token_type type, char *lexeme, void *literal, size_t line)
 	return (token);
 }
 
-void	token_free(t_token *token)
+void	token_free(t_token *t)
 {
-	if (token == NULL)
+	if (t == NULL)
 		return ;
-	if (token->lexeme || token->literal)
-		free(token->str);
-	if (token->type == T_STRING || token->type == T_NUMBER)
-		free(token->lexeme);
-	free(token);
+	if (t->lexeme || t->literal)
+		free(t->str);
+	if (t->type == T_STRING || t->type == T_NUMBER || t->type == T_IDENTIFIER)
+		free(t->lexeme);
+	free(t);
 }
 
 void	tokens_free(t_token *token)

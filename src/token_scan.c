@@ -59,6 +59,61 @@ t_token	*extract_nbr(char *src, size_t *current, size_t *line)
 	return (token_new(T_NUMBER, substr, NULL, *line));
 }
 
+bool	is_alphanum(char c)
+{
+	return (ft_isalpha(c) || c == '_' || ft_isdigit(c));
+}
+
+t_token	*extract_var(char *src, size_t *current, size_t *line)
+{
+	t_token_type	type;
+	size_t			start;
+	char			*substr;
+
+	start = *current - 1;
+	while (is_alphanum(src[*current]))
+		*current += 1;
+	substr = ft_substr(src, start, *current - start);
+	if (substr == NULL)
+		return (NULL);
+	type = T_IDENTIFIER;
+	if (ft_strncmp(substr, "and", 3) == 0)
+		type = T_AND;
+	if (ft_strncmp(substr, "class", 5) == 0)
+		type = T_CLASS;
+	if (ft_strncmp(substr, "else", 4) == 0)
+		type = T_ELSE;
+	if (ft_strncmp(substr, "false", 5) == 0)
+		type = T_FALSE;
+	if (ft_strncmp(substr, "for", 3) == 0)
+		type = T_FOR;
+	if (ft_strncmp(substr, "fun", 3) == 0)
+		type = T_FUN;
+	if (ft_strncmp(substr, "if", 2) == 0)
+		type = T_IF;
+	if (ft_strncmp(substr, "nil", 3) == 0)
+		type = T_NIL;
+	if (ft_strncmp(substr, "or", 2) == 0)
+		type = T_OR;
+	if (ft_strncmp(substr, "print", 5) == 0)
+		type = T_PRINT;
+	if (ft_strncmp(substr, "return", 6) == 0)
+		type = T_RETURN;
+	if (ft_strncmp(substr, "super", 5) == 0)
+		type = T_SUPER;
+	if (ft_strncmp(substr, "this", 4) == 0)
+		type = T_THIS;
+	if (ft_strncmp(substr, "true", 4) == 0)
+		type = T_TRUE;
+	if (ft_strncmp(substr, "var", 3) == 0)
+		type = T_VAR;
+	if (ft_strncmp(substr, "while", 5) == 0)
+		type = T_WHILE;
+	if (type == T_IDENTIFIER)
+		return (token_new(type, substr, NULL, *line));
+	return (free(substr), token_new(type, NULL, NULL, *line));
+}
+
 void	consume_comment(char *src, size_t *current, size_t *line)
 {
 	size_t	len;
@@ -98,6 +153,16 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 		return (token_new(T_SEMICOLON, NULL, NULL, *line));
 	if (c == '*')
 		return (token_new(T_STAR, NULL, NULL, *line));
+	if (c == ' ' || c == '\r' || c == '\t')
+		return (NULL);
+	if (c == '/')
+	{
+		if (match(src, current, '/'))
+			return (consume_comment(src, current, line), NULL);
+		return (token_new(T_SLASH, NULL, NULL, *line));
+	}
+	if (c == '\n')
+		return (*line += 1, NULL);
 	if (c == '!')
 	{
 		if (match(src, current, '='))
@@ -122,22 +187,14 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 			return (token_new(T_GREATER_EQUAL, NULL, NULL, *line));
 		return (token_new(T_GREATER, NULL, NULL, *line));
 	}
-	if (c == ' ' || c == '\r' || c == '\t')
-		return (NULL);
 	if (c == '"')
 	{
 		return (extract_str(src, current, line));
 	}
 	if (ft_isdigit(c))
 		return (extract_nbr(src, current, line));
-	if (c == '/')
-	{
-		if (match(src, current, '/'))
-			return (consume_comment(src, current, line), NULL);
-		return (token_new(T_SLASH, NULL, NULL, *line));
-	}
-	if (c == '\n')
-		return (*line += 1, NULL);
+	if (ft_isalpha(c) || c == '_')
+		return (extract_var(src, current, line));
 	error(*line, "Unexpected character.");
 	return (token_new(T_UNKNOWN, NULL, NULL, *line));
 }

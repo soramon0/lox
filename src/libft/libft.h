@@ -25,6 +25,7 @@ typedef struct s_list
 
 int					ft_atoi(const char *nptr, int *valid);
 int					ft_isdigit(int c);
+int					ft_isalpha(int c);
 size_t				ft_strlen(const char *s);
 void				*ft_calloc(size_t nmemb, size_t size);
 void				ft_bzero(void *s, size_t n);
