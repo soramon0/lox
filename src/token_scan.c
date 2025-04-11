@@ -69,45 +69,47 @@ t_token	*extract_var(char *src, size_t *current, size_t *line)
 	t_token_type	type;
 	size_t			start;
 	char			*substr;
+	size_t	len;
 
 	start = *current - 1;
 	while (is_alphanum(src[*current]))
 		*current += 1;
-	substr = ft_substr(src, start, *current - start);
+	len = *current - start;
+	substr = ft_substr(src, start, len);
 	if (substr == NULL)
 		return (NULL);
 	type = T_IDENTIFIER;
-	if (ft_strncmp(substr, "and", 3) == 0)
+	if (ft_strncmp(substr, "and", len) == 0)
 		type = T_AND;
-	if (ft_strncmp(substr, "class", 5) == 0)
+	if (ft_strncmp(substr, "class", len) == 0)
 		type = T_CLASS;
-	if (ft_strncmp(substr, "else", 4) == 0)
+	if (ft_strncmp(substr, "else", len) == 0)
 		type = T_ELSE;
-	if (ft_strncmp(substr, "false", 5) == 0)
+	if (ft_strncmp(substr, "false", len) == 0)
 		type = T_FALSE;
-	if (ft_strncmp(substr, "for", 3) == 0)
+	if (ft_strncmp(substr, "for", len) == 0)
 		type = T_FOR;
-	if (ft_strncmp(substr, "fun", 3) == 0)
+	if (ft_strncmp(substr, "fun", len) == 0)
 		type = T_FUN;
-	if (ft_strncmp(substr, "if", 2) == 0)
+	if (ft_strncmp(substr, "if", len) == 0)
 		type = T_IF;
-	if (ft_strncmp(substr, "nil", 3) == 0)
+	if (ft_strncmp(substr, "nil", len) == 0)
 		type = T_NIL;
-	if (ft_strncmp(substr, "or", 2) == 0)
+	if (ft_strncmp(substr, "or", len) == 0)
 		type = T_OR;
-	if (ft_strncmp(substr, "print", 5) == 0)
+	if (ft_strncmp(substr, "print", len) == 0)
 		type = T_PRINT;
-	if (ft_strncmp(substr, "return", 6) == 0)
+	if (ft_strncmp(substr, "return", len) == 0)
 		type = T_RETURN;
-	if (ft_strncmp(substr, "super", 5) == 0)
+	if (ft_strncmp(substr, "super", len) == 0)
 		type = T_SUPER;
-	if (ft_strncmp(substr, "this", 4) == 0)
+	if (ft_strncmp(substr, "this", len) == 0)
 		type = T_THIS;
-	if (ft_strncmp(substr, "true", 4) == 0)
+	if (ft_strncmp(substr, "true", len) == 0)
 		type = T_TRUE;
-	if (ft_strncmp(substr, "var", 3) == 0)
+	if (ft_strncmp(substr, "var", len) == 0)
 		type = T_VAR;
-	if (ft_strncmp(substr, "while", 5) == 0)
+	if (ft_strncmp(substr, "while", len) == 0)
 		type = T_WHILE;
 	if (type == T_IDENTIFIER)
 		return (token_new(type, substr, NULL, *line));
