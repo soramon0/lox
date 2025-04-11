@@ -69,7 +69,7 @@ t_token	*extract_var(char *src, size_t *current, size_t *line)
 	t_token_type	type;
 	size_t			start;
 	char			*substr;
-	size_t	len;
+	size_t			len;
 
 	start = *current - 1;
 	while (is_alphanum(src[*current]))
@@ -130,6 +130,28 @@ void	consume_comment(char *src, size_t *current, size_t *line)
 	}
 }
 
+void	consume_multicomment(char *src, size_t *current, size_t *line)
+{
+	size_t	len;
+
+	len = ft_strlen(src);
+	while (src[*current] && *current <= len)
+	{
+		if (src[*current] == '*' && src[*current + 1] == '/')
+			break ;
+		if (src[*current] == '\n')
+			*line += 1;
+		*current += 1;
+	}
+	if (src[*current] == '*' && src[*current + 1] == '/')
+		*current += 2;
+	if (src[*current] == '\n')
+	{
+		*line += 1;
+		*current += 1;
+	}
+}
+
 t_token	*scan_token(char *src, size_t *current, size_t *line)
 {
 	char	c;
@@ -161,6 +183,8 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 	{
 		if (match(src, current, '/'))
 			return (consume_comment(src, current, line), NULL);
+		if (match(src, current, '*'))
+			return (consume_multicomment(src, current, line), NULL);
 		return (token_new(T_SLASH, NULL, NULL, *line));
 	}
 	if (c == '\n')
