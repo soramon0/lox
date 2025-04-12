@@ -2,5 +2,23 @@
 // this is a comment
 (( )){} // grouping stuff
 !*+-/=<> <= == // operators
-"lox is here
+karim = "lox is here
 with multiline strings"
+/*
+
+karim = 12
+*/
+
+fun len(src) {
+  i = 0;
+  while (src)
+  {
+    i++;
+  }
+  return i;
+}
+
+if (len(karim) > 10)
+  print "too many characters"
+else
+  print "good enough"
