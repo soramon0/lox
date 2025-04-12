@@ -17,6 +17,7 @@ fun len(src) {
   }
   return i;
 }
+#
 
 if (len(karim) > 10)
   print "too many characters"

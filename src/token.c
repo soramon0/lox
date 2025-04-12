@@ -42,7 +42,8 @@ void	token_free(t_token *t)
 		return ;
 	if (t->lexeme || t->literal)
 		free(t->str);
-	if (t->type == T_STRING || t->type == T_NUMBER || t->type == T_IDENTIFIER)
+	if (t->type == T_STRING || t->type == T_NUMBER || t->type == T_IDENTIFIER
+		|| t->type == T_UNKNOWN)
 		free(t->lexeme);
 	free(t);
 }

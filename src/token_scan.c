@@ -222,7 +222,8 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 	if (ft_isalpha(c) || c == '_')
 		return (extract_var(src, current, line));
 	error(*line, "Unexpected character.");
-	return (token_new(T_UNKNOWN, NULL, NULL, *line));
+	return (token_new(T_UNKNOWN, ft_strndup(&src[*current - 1], 1), NULL,
+			*line));
 }
 
 t_token	*tokens_scan(char *src)
