@@ -14,6 +14,13 @@ typedef struct s_list
 
 }					t_list;
 
+typedef struct s_str_builder
+{
+	char			*buff;
+	size_t			cap;
+	size_t			len;
+}					t_str_builder;
+
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 69
 # endif
@@ -31,6 +38,7 @@ void				*ft_calloc(size_t nmemb, size_t size);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memset(void *s, int c, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
+void				*ft_memmove(void *dest, const void *src, size_t n);
 char				*ft_strdup(const char *s);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
@@ -70,5 +78,11 @@ int					ft_putptr(void *num, int fd);
 
 ssize_t				get_next_line(int fd, char **receiver);
 ssize_t				ft_istrchr(const char *s, char c);
+
+t_str_builder		*str_builder_create(size_t cap);
+void				str_builder_free(t_str_builder *sb);
+void				str_builder_append(t_str_builder *sb, const char *str,
+						size_t len);
+char				*str_builder_str(t_str_builder *sb);
 
 #endif

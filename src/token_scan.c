@@ -158,25 +158,25 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 
 	c = src[(*current)++];
 	if (c == '(')
-		return (token_new(T_LEFT_PAREN, NULL, NULL, *line));
+		return (token_new(T_LEFT_PAREN, "(", NULL, *line));
 	if (c == ')')
-		return (token_new(T_RIGHT_PAREN, NULL, NULL, *line));
+		return (token_new(T_RIGHT_PAREN, ")", NULL, *line));
 	if (c == '{')
-		return (token_new(T_LEFT_BRACE, NULL, NULL, *line));
+		return (token_new(T_LEFT_BRACE, "{", NULL, *line));
 	if (c == '}')
-		return (token_new(T_RIGHT_BRACE, NULL, NULL, *line));
+		return (token_new(T_RIGHT_BRACE, "}", NULL, *line));
 	if (c == ',')
-		return (token_new(T_COMMA, NULL, NULL, *line));
+		return (token_new(T_COMMA, ",", NULL, *line));
 	if (c == '.')
-		return (token_new(T_DOT, NULL, NULL, *line));
+		return (token_new(T_DOT, ".", NULL, *line));
 	if (c == '-')
-		return (token_new(T_MINUS, NULL, NULL, *line));
+		return (token_new(T_MINUS, "-", NULL, *line));
 	if (c == '+')
-		return (token_new(T_PLUS, NULL, NULL, *line));
+		return (token_new(T_PLUS, "+", NULL, *line));
 	if (c == ';')
-		return (token_new(T_SEMICOLON, NULL, NULL, *line));
+		return (token_new(T_SEMICOLON, ";", NULL, *line));
 	if (c == '*')
-		return (token_new(T_STAR, NULL, NULL, *line));
+		return (token_new(T_STAR, "*", NULL, *line));
 	if (c == ' ' || c == '\r' || c == '\t')
 		return (NULL);
 	if (c == '/')
@@ -192,26 +192,26 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 	if (c == '!')
 	{
 		if (match(src, current, '='))
-			return (token_new(T_BANG_EQUAL, NULL, NULL, *line));
-		return (token_new(T_BANG, NULL, NULL, *line));
+			return (token_new(T_BANG_EQUAL, "!=", NULL, *line));
+		return (token_new(T_BANG, "=", NULL, *line));
 	}
 	if (c == '=')
 	{
 		if (match(src, current, '='))
-			return (token_new(T_EQUAL_EQUAL, NULL, NULL, *line));
-		return (token_new(T_EQUAL, NULL, NULL, *line));
+			return (token_new(T_EQUAL_EQUAL, "==", NULL, *line));
+		return (token_new(T_EQUAL, "=", NULL, *line));
 	}
 	if (c == '<')
 	{
 		if (match(src, current, '='))
-			return (token_new(T_LESS_EQUAL, NULL, NULL, *line));
-		return (token_new(T_LESS, NULL, NULL, *line));
+			return (token_new(T_LESS_EQUAL, "<=", NULL, *line));
+		return (token_new(T_LESS, "<", NULL, *line));
 	}
 	if (c == '>')
 	{
 		if (match(src, current, '='))
-			return (token_new(T_GREATER_EQUAL, NULL, NULL, *line));
-		return (token_new(T_GREATER, NULL, NULL, *line));
+			return (token_new(T_GREATER_EQUAL, ">=", NULL, *line));
+		return (token_new(T_GREATER, ">", NULL, *line));
 	}
 	if (c == '"')
 	{
