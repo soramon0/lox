@@ -154,6 +154,6 @@ void					expr_literal_free(t_expr *expr);
 t_expr					*expr_grouping_create(t_expr *expression);
 void					expr_grouping_free(t_expr *expression);
 
-void					ast_print(t_expr *root);
+void					ast_print(t_expr *root, int depth);
 
 #endif

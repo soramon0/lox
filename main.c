@@ -18,8 +18,7 @@ int	run(char *src)
 	expr = expr_binary_create(expr_unary_create(token_new(T_MINUS, "-", NULL,
 					1), expr_literal_nbr_create(123)), token_new(T_STAR, "*",
 				NULL, 1), expr_grouping_create(expr_literal_nbr_create(45.67)));
-	ast_print(expr);
-	printf("\n");
+	ast_print(expr, 0);
 	expr_free(expr);
 	return (free(src), tokens_free(tokens), EXIT_SUCCESS);
 }
