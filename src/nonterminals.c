@@ -45,11 +45,9 @@ t_expr	*primary(t_token **token)
 		expr = expression(token);
 		if (expr == NULL)
 			return (NULL);
-		if (*token == NULL)
-			return (expr_free(expr), NULL);
 		if (!token_match(token, 1, T_RIGHT_PAREN))
 			return (error((*token)->line, "Expect ')' after expression."),
-				NULL);
+				expr_free(expr), NULL);
 	}
 	return (expr);
 }
