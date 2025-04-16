@@ -55,6 +55,7 @@ typedef enum e_token_type
 	T_VAR,
 	T_WHILE,
 	T_EOF,
+	T_SKIPPABLE,
 	T_UNKNOWN
 }						t_token_type;
 

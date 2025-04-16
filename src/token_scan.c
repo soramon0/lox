@@ -177,7 +177,7 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 	if (c == '*')
 		return (token_new(T_STAR, "*", NULL, *line));
 	if (c == ' ' || c == '\r' || c == '\t')
-		return (NULL);
+		return (token_new(T_SKIPPABLE, " ", NULL, *line));
 	if (c == '/')
 	{
 		if (match(src, current, '/'))
@@ -187,7 +187,7 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 		return (token_new(T_SLASH, NULL, NULL, *line));
 	}
 	if (c == '\n')
-		return (*line += 1, NULL);
+		return (*line += 1, token_new(T_SKIPPABLE, "\n", NULL, *line));
 	if (c == '!')
 	{
 		if (match(src, current, '='))
@@ -242,14 +242,26 @@ t_token	*tokens_scan(char *src)
 		{
 			head = scan_token(src, &current, &line);
 			if (head == NULL)
+				return (NULL);
+			if (head->type == T_SKIPPABLE)
+			{
+				token_free(head);
+				head = NULL;
 				continue ;
+			}
 			last = head;
 		}
 		else
 		{
 			last->next = scan_token(src, &current, &line);
 			if (last->next == NULL)
+				return (tokens_free(head), NULL);
+			if (last->next->type == T_SKIPPABLE)
+			{
+				token_free(last->next);
+				last->next = NULL;
 				continue ;
+			}
 			tmp = last;
 			last = last->next;
 			last->prev = tmp;
