@@ -3,14 +3,16 @@
 int	run(char *src)
 {
 	t_token	*tokens;
+	t_token	*head;
 	t_expr	*expr;
 
 	tokens = tokens_scan(src);
 	if (tokens == NULL)
 		return (EX_DATAERR);
+	head = tokens;
 	expr = expression(&tokens);
 	ast_print(expr, 0);
-	return (expr_free(expr), tokens_free(tokens), EXIT_SUCCESS);
+	return (expr_free(expr), tokens_free(head), EXIT_SUCCESS);
 }
 
 void	run_prompt(void)
