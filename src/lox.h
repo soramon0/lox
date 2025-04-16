@@ -66,6 +66,7 @@ typedef struct s_token
 	void				*literal;
 	char				*str;
 	struct s_token		*next;
+	struct s_token		*prev;
 }						t_token;
 
 typedef enum e_expr_type
@@ -153,6 +154,8 @@ t_expr					*expr_literal_nil_create(void);
 void					expr_literal_free(t_expr *expr);
 t_expr					*expr_grouping_create(t_expr *expression);
 void					expr_grouping_free(t_expr *expression);
+
+t_expr					*expression(t_token *token);
 
 void					ast_print(t_expr *root, int depth);
 

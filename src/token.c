@@ -33,6 +33,7 @@ t_token	*token_new(t_token_type type, char *lexeme, void *literal, size_t line)
 	token->line = line;
 	token->str = token_str_create(token);
 	token->next = NULL;
+	token->prev = NULL;
 	return (token);
 }
 

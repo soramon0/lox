@@ -1,4 +1,3 @@
-#include "libft/libft.h"
 #include "lox.h"
 
 bool	match(char *src, size_t *current, char expected)
@@ -232,6 +231,7 @@ t_token	*tokens_scan(char *src)
 	size_t	line;
 	t_token	*head;
 	t_token	*last;
+	t_token	*tmp;
 
 	current = 0;
 	line = 1;
@@ -250,7 +250,9 @@ t_token	*tokens_scan(char *src)
 			last->next = scan_token(src, &current, &line);
 			if (last->next == NULL)
 				continue ;
+			tmp = last;
 			last = last->next;
+			last->prev = tmp;
 		}
 	}
 	if (head == NULL)
@@ -260,6 +262,7 @@ t_token	*tokens_scan(char *src)
 		last->next = token_new(T_EOF, "", NULL, line);
 		if (last->next == NULL)
 			return (tokens_free(head), NULL);
+		last->next->prev = last;
 	}
 	return (head);
 }
