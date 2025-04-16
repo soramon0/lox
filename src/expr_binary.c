@@ -4,6 +4,8 @@ t_expr	*expr_binary_create(t_expr *left, t_token *op, t_expr *right)
 {
 	t_expr	*expr;
 
+	if (left == NULL || right == NULL || op == NULL)
+		return (NULL);
 	expr = malloc(sizeof(t_expr));
 	if (expr == NULL)
 		return (NULL);
@@ -18,6 +20,5 @@ void	expr_binary_free(t_expr *expr)
 {
 	if (expr == NULL)
 		return ;
-	token_free(expr->u_as.binary.op);
 	free(expr);
 }

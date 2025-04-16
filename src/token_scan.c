@@ -156,6 +156,10 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 	char	c;
 
 	c = src[(*current)++];
+	while (c == ' ' || c == '\r' || c == '\t')
+		c = src[(*current)++];
+	if (c == '\n')
+		return (*line += 1, token_new(T_SKIPPABLE, "\n", NULL, *line));
 	if (c == '(')
 		return (token_new(T_LEFT_PAREN, "(", NULL, *line));
 	if (c == ')')
@@ -176,18 +180,14 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 		return (token_new(T_SEMICOLON, ";", NULL, *line));
 	if (c == '*')
 		return (token_new(T_STAR, "*", NULL, *line));
-	if (c == ' ' || c == '\r' || c == '\t')
-		return (token_new(T_SKIPPABLE, " ", NULL, *line));
 	if (c == '/')
 	{
 		if (match(src, current, '/'))
 			return (consume_comment(src, current, line), NULL);
 		if (match(src, current, '*'))
 			return (consume_multicomment(src, current, line), NULL);
-		return (token_new(T_SLASH, NULL, NULL, *line));
+		return (token_new(T_SLASH, "/", NULL, *line));
 	}
-	if (c == '\n')
-		return (*line += 1, token_new(T_SKIPPABLE, "\n", NULL, *line));
 	if (c == '!')
 	{
 		if (match(src, current, '='))

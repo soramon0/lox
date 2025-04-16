@@ -3,24 +3,14 @@
 int	run(char *src)
 {
 	t_token	*tokens;
-	t_token	*tmp;
 	t_expr	*expr;
 
 	tokens = tokens_scan(src);
 	if (tokens == NULL)
-		return (free(src), EX_DATAERR);
-	tmp = tokens;
-	while (tmp)
-	{
-		token_str(tmp, true);
-		tmp = tmp->next;
-	}
-	expr = expr_binary_create(expr_unary_create(token_new(T_MINUS, "-", NULL,
-					1), expr_literal_nbr_create(123)), token_new(T_STAR, "*",
-				NULL, 1), expr_grouping_create(expr_literal_nbr_create(45.67)));
+		return (EX_DATAERR);
+	expr = expression(&tokens);
 	ast_print(expr, 0);
-	expr_free(expr);
-	return (free(src), tokens_free(tokens), EXIT_SUCCESS);
+	return (expr_free(expr), tokens_free(tokens), EXIT_SUCCESS);
 }
 
 void	run_prompt(void)
@@ -33,12 +23,14 @@ void	run_prompt(void)
 		if (line == NULL)
 			break ;
 		run(line);
+		free(line);
 	}
 }
 
 void	run_file(char *file)
 {
 	char	*bytes;
+	int		status;
 
 	bytes = read_entire_file(file);
 	if (bytes == NULL)
@@ -46,7 +38,9 @@ void	run_file(char *file)
 		perror(file);
 		exit(EX_DATAERR);
 	}
-	exit(run(bytes));
+	status = run(bytes);
+	free(bytes);
+	exit(status);
 }
 
 int	main(int argc, char *argv[])

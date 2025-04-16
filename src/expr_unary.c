@@ -4,6 +4,8 @@ t_expr	*expr_unary_create(t_token *op, t_expr *right)
 {
 	t_expr	*expr;
 
+	if (op == NULL || right == NULL)
+		return (NULL);
 	expr = malloc(sizeof(t_expr));
 	if (expr == NULL)
 		return (NULL);
@@ -17,6 +19,5 @@ void	expr_unary_free(t_expr *expr)
 {
 	if (expr == NULL)
 		return ;
-	token_free(expr->u_as.unary.op);
 	free(expr);
 }
