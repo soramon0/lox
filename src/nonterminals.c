@@ -8,6 +8,8 @@ bool	token_match(t_token **head, size_t count, ...)
 	va_list			args;
 	t_token_type	type;
 
+	if (head == NULL || *head == NULL)
+		return (false);
 	current = *head;
 	if (current->type == T_EOF)
 		return (va_end(args), false);
