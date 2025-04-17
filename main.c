@@ -11,7 +11,7 @@ int	run(char *src)
 		return (EX_DATAERR);
 	head = tokens;
 	expr = expression(&tokens);
-	if (tokens == NULL || tokens->type != T_EOF)
+	if (tokens->type != T_EOF)
 		error(tokens->line, "Invalid syntax");
 	else
 		ast_print(expr, 0);

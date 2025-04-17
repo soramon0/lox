@@ -44,7 +44,7 @@ t_expr	*primary(t_token **token)
 		expr = expr_literal_str_create((char *)(*token)->prev->lexeme);
 	else if (token_match(token, 1, T_LEFT_PAREN))
 	{
-		expr = expression(token);
+		expr = expr_grouping_create(expression(token));
 		if (expr == NULL)
 			return (NULL);
 		if (!token_match(token, 1, T_RIGHT_PAREN))
