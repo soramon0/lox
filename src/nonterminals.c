@@ -172,5 +172,7 @@ t_expr	*expression(t_token **token)
 {
 	if (token == NULL || *token == NULL)
 		return (NULL);
+	if ((*token)->type == T_EOF)
+		return (NULL);
 	return (equality(token));
 }
