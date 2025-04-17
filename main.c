@@ -27,6 +27,7 @@ void	run_prompt(void)
 		line = readline("shell> ");
 		if (line == NULL)
 		{
+			rl_clear_history();
 			printf("exit\n");
 			break ;
 		}
