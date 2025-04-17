@@ -23,8 +23,13 @@ void	run_prompt(void)
 	{
 		line = readline("shell> ");
 		if (line == NULL)
+		{
+			printf("exit\n");
 			break ;
+		}
 		run(line);
+		if (*line)
+			add_history(line);
 		free(line);
 	}
 }
