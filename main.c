@@ -11,7 +11,10 @@ int	run(char *src)
 		return (EX_DATAERR);
 	head = tokens;
 	expr = expression(&tokens);
-	ast_print(expr, 0);
+	if (tokens == NULL || tokens->type != T_EOF)
+		error(tokens->line, "Invalid syntax");
+	else
+		ast_print(expr, 0);
 	return (expr_free(expr), tokens_free(head), EXIT_SUCCESS);
 }
 
