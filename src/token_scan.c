@@ -192,7 +192,7 @@ t_token	*scan_token(char *src, size_t *current, size_t *line)
 	{
 		if (match(src, current, '='))
 			return (token_new(T_BANG_EQUAL, "!=", NULL, *line));
-		return (token_new(T_BANG, "=", NULL, *line));
+		return (token_new(T_BANG, "!", NULL, *line));
 	}
 	if (c == '=')
 	{
