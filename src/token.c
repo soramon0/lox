@@ -3,21 +3,20 @@
 char	*token_str_create(t_token *t)
 {
 	char	*str;
-	char	*str_full;
 	char	*type;
+	int		bytes;
 
-	str_full = NULL;
+	str = NULL;
 	type = (char *)token_type_str(t->type);
 	if (!t->lexeme)
 		return (type);
-	str = ft_strjoin((char *)type, t->lexeme, ' ');
-	if (str == NULL)
+	if (t->lexeme && t->literal)
+		bytes = ft_sprintf(&str, "%s %s %s", type, t->lexeme, t->literal);
+	else
+		bytes = ft_sprintf(&str, "%s %s", type, t->lexeme);
+	if (bytes == -1)
 		return (type);
-	if (t->literal)
-		str_full = ft_strjoin(str, t->literal, ' ');
-	if (str_full == NULL)
-		return (str);
-	return (free(str), str_full);
+	return (str);
 }
 
 t_token	*token_new(t_token_type type, char *lexeme, void *literal, size_t line)

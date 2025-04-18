@@ -268,10 +268,10 @@ t_token	*tokens_scan(char *src)
 		}
 	}
 	if (head == NULL)
-		head = token_new(T_EOF, "", NULL, line);
+		head = token_new(T_EOF, NULL, NULL, line);
 	else
 	{
-		last->next = token_new(T_EOF, "", NULL, line);
+		last->next = token_new(T_EOF, NULL, NULL, line);
 		if (last->next == NULL)
 			return (tokens_free(head), NULL);
 		last->next->prev = last;
