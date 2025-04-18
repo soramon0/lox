@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <unistd.h>
 
 static int	process(va_list args, int fd, char **format, char specifier)
 {
