@@ -62,10 +62,17 @@ void	tokens_free(t_token *token)
 	}
 }
 
-void	token_str(t_token *t, bool nl)
+void	token_str(t_token *t, bool nl, bool all)
 {
-	if (nl)
-		printf("%s\n", t->str);
-	else
-		printf("%s", t->str);
+	while (t)
+	{
+		if (nl)
+			ft_printf("%s\n", t->str);
+		else
+			ft_printf("%s", t->str);
+		if (all)
+			t = t->next;
+		else
+			break ;
+	}
 }

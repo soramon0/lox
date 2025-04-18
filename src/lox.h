@@ -141,7 +141,7 @@ t_token					*token_new(t_token_type type, char *lexeme,
 t_token					*tokens_scan(char *src);
 void					tokens_free(t_token *token);
 void					token_free(t_token *token);
-void					token_str(t_token *t, bool nl);
+void					token_str(t_token *t, bool nl, bool all);
 const char				*token_type_str(t_token_type type);
 
 void					expr_free(t_expr *expr);
