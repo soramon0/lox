@@ -1,7 +1,20 @@
-#ifndef LIB_H
-# define LIB_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: klaayoun <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/25 22:18:11 by klaayoun          #+#    #+#             */
+/*   Updated: 2024/10/25 22:21:05 by klaayoun         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef LIBFT_H
+# define LIBFT_H
 
 # include <stdarg.h>
+# include <stdbool.h>
 # include <stddef.h>
 # include <stdint.h>
 # include <stdlib.h>
@@ -66,6 +79,8 @@ int					ft_vprintf_fd(va_list args, int fd, const char *format,
 int					ft_printf(const char *format, ...);
 int					ft_vprintf(va_list args, const char *format, ...);
 int					ft_printf_fd(int fd, const char *format, ...);
+int					ft_sprintf(char **buff, const char *format, ...);
+int					ft_vsprintf(va_list args, char **buff, const char *s, ...);
 char				*ft_strchr(const char *s, int c);
 int					ft_putstr_fd(char *str, int fd);
 int					ft_putchr(char c);
@@ -79,10 +94,22 @@ int					ft_putptr(void *num, int fd);
 ssize_t				get_next_line(int fd, char **receiver);
 ssize_t				ft_istrchr(const char *s, char c);
 
-t_str_builder		*str_builder_create(size_t cap);
-void				str_builder_free(t_str_builder *sb);
-void				str_builder_append(t_str_builder *sb, const char *str,
+t_str_builder		*sb_create(size_t cap);
+void				sb_free(t_str_builder *sb);
+bool				sb_ensure_size(t_str_builder *sb, size_t len);
+void				sb_truncate(t_str_builder *sb, size_t len);
+void				sb_clear(t_str_builder *sb);
+void				sb_drop(t_str_builder *sb, size_t len);
+bool				sb_append_str(t_str_builder *sb, const char *str,
 						size_t len);
-char				*str_builder_str(t_str_builder *sb);
+bool				sb_append_char(t_str_builder *sb, char c);
+bool				sb_append_nbr(t_str_builder *sb, int n);
+bool				sb_append_unbr(t_str_builder *sb, unsigned int n);
+bool				sb_append_ptr(t_str_builder *sb, void *ptr);
+bool				sb_append_hex(t_str_builder *sb, unsigned long num,
+						int uppercase);
+size_t				sb_len(t_str_builder *sb);
+const char			*sb_str(t_str_builder *sb);
+char				*sb_build(t_str_builder *sb);
 
 #endif
