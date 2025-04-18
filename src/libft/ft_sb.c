@@ -19,7 +19,7 @@ t_str_builder	*sb_create(size_t cap)
 	sb = ft_calloc(1, sizeof(t_str_builder));
 	if (sb == NULL)
 		return (NULL);
-	sb->cap = 32;
+	sb->cap = 10;
 	if (sb->cap < cap)
 		sb->cap = cap;
 	sb->buff = malloc(sb->cap);
