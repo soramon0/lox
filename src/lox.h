@@ -133,7 +133,7 @@ typedef struct s_expr
 void					exit_msg(int status, char *fmt, ...);
 void					exit_err(char *fmt, ...);
 void					report(int line, char *where, char *msg);
-void					error(int line, char *msg);
+void					error(int line, char *msg, ...);
 
 char					*read_entire_file(char *file);
 t_token					*token_new(t_token_type type, char *lexeme,

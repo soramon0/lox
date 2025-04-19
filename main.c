@@ -12,7 +12,7 @@ int	run(char *src)
 	head = tokens;
 	expr = expression(&tokens);
 	if (tokens->type != T_EOF)
-		error(tokens->line, "Invalid syntax");
+		error(tokens->line, "Invalid syntax: %s", tokens->lexeme);
 	else
 		ast_print(expr, 0);
 	return (expr_free(expr), tokens_free(head), EXIT_SUCCESS);
