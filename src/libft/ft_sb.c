@@ -50,6 +50,6 @@ char	*sb_build(t_str_builder *sb)
 		return (NULL);
 	if (sb->buff == NULL)
 		return (sb_free(sb), NULL);
-	str = ft_strdup(sb->buff);
+	str = ft_strndup(sb->buff, sb->len);
 	return (sb_free(sb), str);
 }
