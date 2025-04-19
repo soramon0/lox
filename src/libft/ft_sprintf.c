@@ -12,41 +12,41 @@
 
 #include "libft.h"
 
-static int	process(va_list args, t_str_builder *sb, char **fmt, char target)
+static int	process(va_list args, t_str_builder *sb, char specifier)
 {
 	int		bytes;
 	bool	r;
 
 	bytes = sb->len;
 	r = false;
-	if (target == '%')
+	if (specifier == '%')
 		r = sb_append_char(sb, '%');
-	else if (target == 'c')
+	else if (specifier == 'c')
 		r = sb_append_char(sb, va_arg(args, int));
-	else if (target == 's')
+	else if (specifier == 's')
 		r = sb_append_str(sb, va_arg(args, char *), 0);
-	else if (target == 'd' || target == 'i')
+	else if (specifier == 'd' || specifier == 'i')
 		r = sb_append_nbr(sb, va_arg(args, int));
-	else if (target == 'u')
+	else if (specifier == 'u')
 		r = sb_append_unbr(sb, va_arg(args, int));
-	else if (target == 'x' || target == 'X')
-		r = sb_append_hex(sb, va_arg(args, unsigned int), target == 'X');
-	else if (target == 'p')
+	else if (specifier == 'x' || specifier == 'X')
+		r = sb_append_hex(sb, va_arg(args, unsigned int), specifier == 'X');
+	else if (specifier == 'p')
 		r = sb_append_ptr(sb, va_arg(args, void *));
-	*fmt += 2;
 	if (!r)
 		return (-1);
 	return (sb->len - bytes);
 }
 
-static int	handle_specifier(va_list args, t_str_builder *sb, char **s)
+static int	handle_specifier(va_list args, t_str_builder *sb, const char *s,
+		size_t *i)
 {
 	char	*specifier;
 	int		r;
 	int		bytes;
 
 	bytes = 0;
-	specifier = ft_strchr("cspdiuxX%", *((*s) + 1));
+	specifier = ft_strchr("cspdiuxX%", s[*i + 1]);
 	if (!specifier)
 	{
 		if (!sb_append_char(sb, '%'))
@@ -56,36 +56,36 @@ static int	handle_specifier(va_list args, t_str_builder *sb, char **s)
 	}
 	else
 	{
-		r = process(args, sb, s, *specifier);
+		r = process(args, sb, *specifier);
 		if (r == -1)
 			return (-1);
+		*i += 2;
 		bytes += r;
 	}
 	return (bytes);
 }
 
-int	ft_vsprintf(va_list args, char **buff, const char *s, ...)
+int	ft_vsprintf(va_list args, char **buff, const char *fmt, ...)
 {
 	int				bytes;
 	int				r;
+	size_t			i;
 	t_str_builder	*sb;
 
-	if (!s || !buff)
-		return (-1);
-	sb = sb_create(ft_strlen(s));
-	if (sb == NULL)
-		return (-1);
+	sb = sb_create(ft_strlen(fmt));
+	if (!fmt || !buff || sb == NULL)
+		return (sb_free(sb), -1);
 	bytes = 0;
-	while (*s)
+	i = 0;
+	while (fmt[i])
 	{
-		if (*s != '%' && ++bytes)
+		if (fmt[i] != '%' && ++bytes)
 		{
-			if (!sb_append_char(sb, *s))
+			if (!sb_append_char(sb, fmt[i++]))
 				return (*buff = NULL, sb_free(sb), -1);
-			s++;
 			continue ;
 		}
-		r = handle_specifier(args, sb, (char **)&s);
+		r = handle_specifier(args, sb, fmt, &i);
 		if (r == -1)
 			return (*buff = NULL, sb_free(sb), -1);
 		bytes += r;
