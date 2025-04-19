@@ -14,8 +14,10 @@
 
 bool	sb_append_str(t_str_builder *sb, const char *str, size_t len)
 {
-	if (sb == NULL || str == NULL || *str == '\0')
+	if (sb == NULL || str == NULL)
 		return (false);
+	if (*str == '\0')
+		return (true);
 	if (len == 0)
 		len = ft_strlen(str);
 	if (!sb_ensure_size(sb, len))
