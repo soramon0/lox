@@ -112,7 +112,7 @@ t_token	*extract_var(char *src, size_t *current, size_t *line)
 		type = T_WHILE;
 	if (type == T_IDENTIFIER)
 		return (token_new(type, substr, NULL, *line));
-	return (free(substr), token_new(type, NULL, NULL, *line));
+	return (token_new(type, substr, NULL, *line));
 }
 
 void	consume_comment(char *src, size_t *current, size_t *line)
