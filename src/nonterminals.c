@@ -30,18 +30,17 @@ t_expr	*primary(t_token **token)
 {
 	t_expr	*expr;
 
-	expr = NULL;
 	if (token_match(token, 1, T_FALSE))
-		expr = expr_literal_bool_create(false);
+		return (expr_literal_bool_create(false));
 	else if (token_match(token, 1, T_TRUE))
-		expr = expr_literal_bool_create(true);
+		return (expr_literal_bool_create(true));
 	else if (token_match(token, 1, T_NIL))
-		expr = expr_literal_nil_create();
+		return (expr_literal_nil_create());
 	else if (token_match(token, 1, T_NUMBER))
-		expr = expr_literal_nbr_create(strtod((char *)(*token)->prev->lexeme,
-					NULL));
+		return (expr_literal_nbr_create(strtod((char *)(*token)->prev->lexeme,
+					NULL)));
 	else if (token_match(token, 1, T_STRING))
-		expr = expr_literal_str_create((char *)(*token)->prev->lexeme);
+		return (expr_literal_str_create((char *)(*token)->prev->lexeme));
 	else if (token_match(token, 1, T_LEFT_PAREN))
 	{
 		expr = expr_grouping_create(expression(token));
@@ -50,8 +49,9 @@ t_expr	*primary(t_token **token)
 		if (!token_match(token, 1, T_RIGHT_PAREN))
 			return (error((*token)->line, "Expect ')' after expression."),
 				expr_free(expr), NULL);
+		return (expr);
 	}
-	return (expr);
+	return (error((*token)->line, "Expect expression."), NULL);
 }
 
 t_expr	*unary(t_token **token)
