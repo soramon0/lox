@@ -30,6 +30,8 @@ bool	sb_ensure_size(t_str_builder *sb, size_t len)
 	if (new_buff == NULL)
 		return (false);
 	ft_memcpy(new_buff, sb->buff, sb->len);
+	free(sb->buff);
+	sb->buff = new_buff;
 	return (true);
 }
 
